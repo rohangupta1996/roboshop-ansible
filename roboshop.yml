@@ -1,4 +1,4 @@
 - name: roboshop project
   hosts: all
   roles:
-    - "{{ run_component }}"
+    - "{{ role_name }}"
