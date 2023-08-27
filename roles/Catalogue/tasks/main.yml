@@ -1,0 +1,3 @@
+- name: Print cCatalogue
+  ansible.builtin.debug:
+    msg: Hello Catalogue
