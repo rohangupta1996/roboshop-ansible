@@ -1,0 +1,22 @@
+- name: installing Redis repos
+  ansible.builtin.yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    state: present
+    disable_gpg_check: yes
+
+- name: Enable and install redis
+  ansible.builtin.dnf:
+    name: redis:remi-6.2
+    state: present
+
+- name: Update redis listen address
+  ansible.builtin.replace:
+    path: /etc/redis.conf
+    regexp: '12.0.0.1'
+    replace: '0.0.0.0'
+
+- name: start redis
+  ansible.builtin.systemd:
+    name: redis
+    state: started
+    enabled: true
