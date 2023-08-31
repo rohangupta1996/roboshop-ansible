@@ -18,7 +18,7 @@
   ansible.bhuiltin.systemd:
     name: mongod
     state: started
-    enable: true
+    enabled: true
 
 
 
