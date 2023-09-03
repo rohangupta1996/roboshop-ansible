@@ -9,7 +9,7 @@
     name:
       - rabbitmq-server
       - erlang
-  state: present
+    state: present
 
 - name: Start RabbitMQ Service
   ansible.builtin.systemd:
