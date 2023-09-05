@@ -4,7 +4,7 @@
     state: present
 
 - name: Load app pre requesite
-  ansible.builtin.import_task:
+  ansible.builtin.import_tasks:
     file: app-prereq.yml
 
 - name: Install Maven Dependencies
@@ -12,12 +12,11 @@
   args:
       chdir: /app
 
-
 - name: Schema Setup
-  ansible.builtin.import_task:
+  ansible.builtin.import_tasks:
     file: schema-setup.yml
   when: schema_type is defined
 
 - name: SystemD Setup
-  ansible.builtin.import_task:
+  ansible.builtin.import_tasks:
     file: systemd-setup.yml
