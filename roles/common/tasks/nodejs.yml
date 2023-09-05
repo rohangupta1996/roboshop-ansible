@@ -6,7 +6,7 @@
     name: nodejs
     state: present
 
-- name: App prerequestic
+- name: App pre-requisites
   ansible.builtin.import_tasks:
       file: app-prereq.yml
 

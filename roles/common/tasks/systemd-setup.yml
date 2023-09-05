@@ -1,11 +1,11 @@
-  - name: Copy roboshop config file
+  - name: Copy Systemd config file
     ansible.builtin.copy:
-      src: {{ component }}.service
+      src: "{{component}}.service"
       dest: /etc/systemd/system/{{ component }}.service
 
   - name: Start service
     ansible.builtin.systemd:
       name: "{{ component }}"
-      state: restart
+      state: restarted
       enabled: true
       daemon-reload: true
