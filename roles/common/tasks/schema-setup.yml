@@ -6,7 +6,7 @@
         src: mongodb.repo
         dest: /etc/yum.repos.d/mongodb.repo
 
-    - name: Install Mongodb install
+    - name: Install Mongodb client
       ansible.builtin.yum:
         name: mongodb-org-shell
         state: present
