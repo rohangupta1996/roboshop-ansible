@@ -10,6 +10,7 @@
       ansible.builtin.yum:
         name: mongodb-org-shell
         state: present
+
     - name: Load Schema
       ansible.builtin.shell: mongo --host mongodb-dev.rohandevops.online </app/schema/{{component}}.js
 
