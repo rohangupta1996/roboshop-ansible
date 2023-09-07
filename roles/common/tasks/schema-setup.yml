@@ -21,5 +21,6 @@
       ansible.builtin.yum:
         name: mysql
         state: present
+
     - name: Load Schema
-      ansible.builtin.shell: mysql -h mysql-dev.rohandevops.online -uroot =pRoboShop@1 < /app/schema/{{component}}.sql
+      ansible.builtin.shell: mysql -h mysql-dev.rohandevops.online -uroot -pRoboShop@1 < /app/schema/{{component}}.sql
