@@ -1,7 +1,4 @@
-#- name: Load NodeJS
-#  ansible.builtin.import_role:
-#    name: common
-#    tasks_from: nodejs
-- name: Hello catalogue
-  debug:
-    msg: catalogue
+- name: Load NodeJS
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
