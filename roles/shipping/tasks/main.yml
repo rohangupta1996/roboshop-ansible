@@ -1,8 +1,4 @@
-#- name: Load Java
-#  ansible.builtin.import_role:
-#    name: common
-#    tasks_from: java
-
-- name: Shipping
-  debug:
-    msg: Hello Shipping
+- name: Load Java
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: java
