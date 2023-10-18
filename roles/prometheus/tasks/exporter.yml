@@ -1,5 +1,16 @@
 - name: Download prometheus Node exporter
   ansible.builtin.unarchive:
-    src: https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz
+    src: "{{exporter_url}}"
     dest: /opt
     remote_src: true
+
+- name: Copy file exporter
+  ansible.builtin.template:
+    src: exporter.service
+    dest: /etc/systemd/system/node_exporter.service
+
+- name: Start Exporter Service
+  ansible.builtin.systemd:
+    name: node_exporter
+    state: restarted
+    enabled: yes
