@@ -1,2 +1,3 @@
 component: frontend
 node_exporter: true
+filebeat: true
