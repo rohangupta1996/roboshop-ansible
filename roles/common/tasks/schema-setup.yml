@@ -9,10 +9,16 @@
     - name: Install Mongodb client
       ansible.builtin.yum:
         name: mongodb-org-shell
-        state: present
+        state: installed
+    - name: Download MongoDB Pem file
+      ansible.builtin.get_url:
+        url: https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+        dest: /app/rds-combined-ca-bundle.pem
 
     - name: Load Schema
-      ansible.builtin.shell: mongo --host mongodb-dev.rohandevops.online </app/schema/{{component}}.js
+#     ansible.builtin.shell: mongo --host mongodb-dev.rohandevops.online </app/schema/{{component}}.js
+#      Below value we take from docdb cluster ( Connect to this cluster with the mongo shell and do some changes ) ,lookup is coming from catalogue service
+      ansible.builtin.shell: mongo --ssl --host {{ lookup('amazon.aws.aws_ssm', '{{env}}.docdb.endpoint', region='us-east-1') }}:27017 -- ss1CAFile /app/rds-combined-ca-bundle.pem --username {{ lookup('amazon.aws.aws_ssm', '{{env}}.docdb.user', region='us-east-1') }} --password {{ lookup('amazon.aws.aws_ssm', '{{env}}.docdb.pass', region='us-east-1') }} </app/schema/{{component}}.js
 
 - name: MySQL Schema
   when: schema_type == "mysql"
@@ -23,4 +29,4 @@
         state: present
 
     - name: Load Schema
-      ansible.builtin.shell: mysql -h mysql-dev.rohandevops.online -uroot -pRoboShop@1 < /app/schema/{{component}}.sql
+      ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.endpoint', region='us-east-1') }} -u{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.user', region='us-east-1') }} -p{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.pass', region='us-east-1') }} < /app/schema/{{component}}.sql
