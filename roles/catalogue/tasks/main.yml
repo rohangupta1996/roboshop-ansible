@@ -1,0 +1,36 @@
+#component=catalogue
+#source common.sh
+#
+#print_head Copy MongoDB Repo file
+#cp mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
+#exit_status_print $?
+#
+#nodejs_app_setup
+#
+#
+#print_head Install MongoDB
+#dnf install mongodb-mongosh -y &>>$log_file
+#exit_status_print $?
+#
+#print_head Load Master Data
+#mongosh --host mongo-dev.ro-bot.store </app/db/master-data.js &>>$log_file
+#exit_status_print $?
+
+- name: Copy MongoDB Repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+
+- name: Load Nodejs
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs
+
+- name: Install MongoDB
+  ansible.builtin.dnf:
+    name: mongodb-mongosh
+    state: installed
+
+- name: Load Master Data
+  ansible.builtin.shell: mongosh --host mongo-dev.ro-bot.store </app/db/master-data.js

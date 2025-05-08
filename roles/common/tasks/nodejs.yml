@@ -1,0 +1,42 @@
+#print_head Disable NodeJS default version
+#dnf module disable nodejs -y &>>$log_file
+#exit_status_print $?
+#
+#print_head Enable NodeJS 20
+#dnf module enable nodejs:20 -y &>>$log_file
+#exit_status_print $?
+#
+#print_head Install NodeJS
+#dnf install nodejs -y &>>$log_file
+#exit_status_print $?
+#
+#artifact_download
+#cd /app
+#
+#print_head Install NodeJs Dependencies
+#npm install &>>$log_file
+#exit_status_print $?
+#
+#systemd_setup
+
+- name: Disable NodeJS default version
+  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
+
+- name: Install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+    state: installed
+
+- name: Include Artifact Download
+  ansible.builtin.include_tasks:
+    file: artifact_download.yml
+
+- name: Install NodeJs Dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+
+- name: Include Systemd_setup
+  ansible.builtin.include_tasks:
+    file: systemd_setup.yml
