@@ -16,16 +16,18 @@
 #mongosh --host mongo-dev.ro-bot.store </app/db/master-data.js &>>$log_file
 #exit_status_print $?
 
-- name: Copy MongoDB Repo file
-  ansible.builtin.copy:
-    src: mongo.repo
-    dest: /etc/yum.repos.d/mongo.repo
 
 
 - name: Load Nodejs
   ansible.builtin.include_role:
     name: common
     tasks_from: nodejs
+
+- name: Copy MongoDB Repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
 
 - name: Install MongoDB
   ansible.builtin.dnf:
