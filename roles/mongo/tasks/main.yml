@@ -1,0 +1,37 @@
+#source common.sh
+#
+#print_head Copy mongoDB repo file
+#cp mongo.sh /etc/yum.repos.d/mongo.repo &>> $log_file
+#
+#print_head Install MongoDB
+#dnf install mongodb-org -y
+#
+#print_head Update mongoDB Config file
+#sed -i -e 's|127.0.0.0|0.0.0.0|' /etc/mongod.conf
+#
+#print_head Start MongoDB service
+#systemctl enable mongod &>> $log_file
+#systemctl restart mongod &>> $log_file
+
+
+- name: Copy mongoDB repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install MongoDB
+  ansible.builtin.dnf:
+    name: mongoDB
+    state: present
+
+- name: Update mongoDB Config file
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.0'
+    replace: '0.0.0.0'
+
+- name: Start MongoDB service
+  ansible.builtin.service:
+    name: mongoDB
+    state: restarted
+
