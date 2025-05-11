@@ -1,0 +1,37 @@
+#
+#component=shipping
+#source common.sh
+#
+#
+#maven_app_setup
+#
+#print_head Install MySQL Client
+#dnf install mysql -y &>>$log_file
+#
+#print_head Load Schema
+#mysql -h mysql-dev.ro-bot.store -uroot -pRoboShop@1 < /app/db/schema.sql &>>$log_file
+#
+#print_head Load User creation
+#mysql -h mysql-dev.ro-bot.store -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$log_file
+#
+#print_head Load Master Data
+#mysql -h mysql-dev.ro-bot.store -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$log_file
+
+- name: Load Maven
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: maven
+
+- name: Install MySQL Client
+  ansible.builtin.dnf:
+    name: mysql
+    state: installed
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -h mysql-dev.ro-bot.store -uroot -pRoboShop@1 < /app/db/schema.sql
+
+- name: Load User
+  ansible.builtin.shell: mysql -h mysql-dev.ro-bot.store -uroot -pRoboShop@1 < /app/db/app-user.sql
+
+- name: Load Master Data
+  ansible.builtin.shell: mysql -h mysql-dev.ro-bot.store -uroot -pRoboShop@1 < /app/db/master-data.sql
